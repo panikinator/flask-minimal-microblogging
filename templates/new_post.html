@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<title>Create New Post</title>
+{% endblock %}
+
+{% block header %}
+<nav>
+  <ul>
+    <li><a href="/">home</a></li>
+    <li><a href="/new_post" class="current">new post</a></li>
+    <li><a href="/logout">{{ session.get("username", "") }}|logout</a></li>
+  </ul>
+</nav>
+{% endblock header %}
+
+{% block main %}
+<form action="/new_post" method="post">
+  <label for="content">Enter Text to post:</label>
+  <textarea name="content" id="content" rows="8" placeholder="type something here..."></textarea>
+  <button type="submit">Post!</button>
+</form>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ url_for('static', filename='simple.css') }}" rel="stylesheet" />
+    <!-- <script src="{{ url_for('static', filename='alpine.min.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <header>{% block header%}{% endblock %}</header>
+    <main>
+        <ul>
+            {% for message in get_flashed_messages() %}
+            <li class="notice">
+                {{ message }}
+                <!-- <a href="#" hx-target="closest li" hx-swap="delete" hx-trigger="click">dismiss</a> -->
+                <a href="#" hx-get="#" hx-target="closest li" hx-swap="delete" hx-trigger="click">dismiss</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% block main %}{% endblock %}
+    </main>
+    <footer>
+        {% block footer %}{% endblock %}
+        <p>
+            @panikinator |
+            <small>Example web app for CPC submission</small>
+        </p>
+    </footer>
+</body>
+
+</html>
