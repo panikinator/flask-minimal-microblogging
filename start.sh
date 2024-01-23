@@ -3,4 +3,4 @@
 pip3 install poetry
 poetry install
 poetry shell
-gunicorn main:app
+gunicorn main:app -b 0.0.0.0:3000
