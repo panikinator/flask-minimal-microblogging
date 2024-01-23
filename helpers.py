@@ -3,6 +3,7 @@ import sqlite3
 from functools import wraps
 
 
+# this decorated only allows access to route when user id is set session
 def login_required(f):
 
     @wraps(f)
@@ -14,6 +15,9 @@ def login_required(f):
             return redirect("/login")
 
     return wrap
+
+
+# methods below are wrapper functions for accessing the database
 
 
 def get_db():
@@ -39,6 +43,7 @@ def execute_db(cmd, args=()):
     cur.close()
 
 
+# initial schema is defined in the schema.sql file
 def init_db():
     with current_app.app_context():
         db = get_db()

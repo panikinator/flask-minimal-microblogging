@@ -11,6 +11,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY",
 app.config["DATABASE_PATH"] = "database.sqlite3"
 
 
+# automatically close the sqlite database connection upon closure of connection
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
@@ -27,6 +28,7 @@ def index_route():
     return render_template("index.html", posts=recent_posts)
 
 
+# this route returns partial html fragments to work with htmx
 @app.route("/get_posts")
 @login_required
 def get_posts_partial():
@@ -97,12 +99,6 @@ def logout():
     return redirect("/login")
 
 
-#     if session.get("id"):
-#         flash("You are already logged in!", "danger")
-#         return redirect("/")
-#     return render_template("login.html", form=form)
-
-
 @app.route("/new_post", methods=["GET", "POST"])
 @login_required
 def new_post_route():
@@ -123,8 +119,10 @@ def new_post_route():
     return redirect("/")
 
 
+if not os.path.exists(app.config["DATABASE_PATH"]):
+    with app.app_context():
+        init_db()
+
+# run app through test debug server only if file is executed directly
 if __name__ == "__main__":
-    if not os.path.exists(app.config["DATABASE_PATH"]):
-        with app.app_context():
-            init_db()
     app.run(debug=True, host="0.0.0.0")
