@@ -114,7 +114,9 @@ def new_post_route():
     if not content:
         flash("Too short!")
         return redirect(request.url)
-
+    if len(content) > 1000:
+        flash("Max 1000 characters allowed")
+        return redirect(request.url)
     execute_db("INSERT INTO posts(content, user_id) VALUES (?,?)",
                (content, user_id))
     flash("Posted!")
