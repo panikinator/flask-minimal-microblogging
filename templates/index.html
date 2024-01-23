@@ -1,10 +1,6 @@
-{% extends "layout.html" %}
-
-{% block title %}
+{% extends "layout.html" %} {% block title %}
 <title>Index Page</title>
-{% endblock %}
-
-{% block header %}
+{% endblock %} {% block header %}
 <nav>
   <ul>
     <li><a href="/" class="current">home</a></li>
@@ -12,17 +8,19 @@
     <li><a href="/logout">{{ session.get("username", "") }}|logout</a></li>
   </ul>
 </nav>
-{% endblock header %}
-
-{% block main %}
+{% endblock header %} {% block main %}
 <h1>Recent Posts</h1>
 {% for post in posts %}
 <article>
   <h3>By: {{ post.username }}</h3>
   <h4>At: {{ post.time_posted }}</h4>
   <p>{{ post.content }}</p>
-
 </article>
 {% endfor %}
-<div hx-get="/get_posts?page={{ next_n }}" hx-trigger="revealed" hx-swap="outerHTML" hx-target="this"></div>
+<div
+  hx-get="/get_posts?page={{ next_n }}"
+  hx-trigger="revealed"
+  hx-swap="outerHTML"
+  hx-target="this"
+></div>
 {% endblock %}

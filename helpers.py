@@ -30,12 +30,14 @@ def query_db(query, args=()):
     cur.close()
     return rv
 
+
 def execute_db(cmd, args=()):
     db = get_db()
     cur = db.cursor()
     cur.execute(cmd, args)
     db.commit()
     cur.close()
+
 
 def init_db():
     with current_app.app_context():

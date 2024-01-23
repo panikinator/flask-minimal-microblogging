@@ -3,12 +3,14 @@
   <h3>By: {{ post.username }}</h3>
   <h4>At: {{ post.time_posted }}</h4>
   <p>{{ post.content }}</p>
-
 </article>
-{% endfor %}
-
-{% if reached_end %}
+{% endfor %} {% if reached_end %}
 <h5>Looks like you've reached the end!</h5>
 {% else %}
-<div hx-get="/get_posts?page={{ next_n }}" hx-trigger="revealed" hx-swap="outerHTML" hx-target="this"></div>
+<div
+  hx-get="/get_posts?page={{ next_n }}"
+  hx-trigger="revealed"
+  hx-swap="outerHTML"
+  hx-target="this"
+></div>
 {% endif %}

@@ -1,34 +1,28 @@
-{% extends "layout.html" %}
-
-{% block head %}
+{% extends "layout.html" %} {% block head %}
 <title>Create New Account</title>
-{% endblock %}
-
-{% block header %}
+{% endblock %} {% block header %}
 <nav>
   <ul>
     <li><a href="/register" class="current">register</a></li>
     <li><a href="/login">login</a></li>
   </ul>
 </nav>
-{% endblock %}
-
-{% block main %}
+{% endblock %} {% block main %}
 <h2>Create an account</h2>
 <h4>Already have an account?</h4>
 <h5>Login <a href="/login">here</a></h5>
 <form action="/register" method="post">
   <div>
     <label for="#username">Username:</label>
-    <input type="text" id="username" name="username">
+    <input type="text" id="username" name="username" />
   </div>
   <div>
     <label for="#password">Password:</label>
-    <input type="password" id="password" name="password">
+    <input type="password" id="password" name="password" />
   </div>
   <div>
     <label for="#password_confirm">Password:</label>
-    <input type="password" id="password_confirm" name="password_confirm">
+    <input type="password" id="password_confirm" name="password_confirm" />
   </div>
   <button type="submit">Register</button>
 </form>
