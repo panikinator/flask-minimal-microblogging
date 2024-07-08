@@ -8,11 +8,10 @@
 - simple.css
 
 #### Local dev setup instructions:
-1. this project uses poetry for dependency management, so firstly install that
-2. clone this repo
-3. run `poetry install` inside a shell
-4. then activate the environment using `poetry shell`
-5. then run the `main.py` script i.e. `python3 main.py`
+1. clone this repo
+2. (optional) create a virtual env and activate it
+3. run `pip3 install -r requirements.txt` inside a shell
+4. then run the `main.py` script i.e. `python3 main.py`
 
 #### Example Hosted Instance
 [here!](https://continuous-wobbly-kosmoceratops.glitch.me/) 
