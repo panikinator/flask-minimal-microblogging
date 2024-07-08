@@ -2,7 +2,17 @@
 <article>
   <h3>By: {{ post.username }}</h3>
   <h4>At: {{ post.time_posted }}</h4>
+  <hr>
   <p>{{ post.content }}</p>
+  {% if session["username"] == post.username  %}
+  <hr>
+  <button hx-get="/posts/{{ post.id }}/edit">
+    Edit
+  </button>
+  <button hx-delete="/posts/{{ post.id }}/delete">
+    Delete
+  </button>
+  {% endif %}
 </article>
 {% endfor %} {% if reached_end %}
 <h5>Looks like you've reached the end!</h5>

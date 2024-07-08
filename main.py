@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, flash, g, redirect, render_template, request, session
+from flask import Flask, flash, g, redirect, render_template, request, session, abort
 from werkzeug.security import generate_password_hash, check_password_hash
 from helpers import execute_db, init_db, login_required, query_db
 
@@ -23,7 +23,7 @@ def close_connection(exception):
 @login_required
 def index_route():
     recent_posts = query_db(
-        "SELECT users.username, posts.content, posts.time_posted FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY time_posted DESC LIMIT 10"
+        "SELECT users.username, posts.content, posts.time_posted, posts.id FROM posts INNER JOIN users ON posts.user_id = users.id ORDER BY time_posted DESC LIMIT 10"
     )
     return render_template("index.html", posts=recent_posts)
 
@@ -117,6 +117,40 @@ def new_post_route():
                (content, user_id))
     flash("Posted!")
     return redirect("/")
+
+@app.route("/posts/<post_id>/edit", methods=["GET", "PUT"])
+@login_required
+def edit_post_route(post_id: int):
+    user_id = session.get("id")
+    if request.method == "GET":
+        post = query_db("select * from posts where id = ? AND user_id = ?", (post_id, user_id))
+        if post:
+            post = post[0]
+        else:
+            abort(404)
+        return render_template("partial/edit_post.html", post=post)
+    if request.method == "PUT":
+        content = request.form.get("content", "")
+        if not content:
+            flash("Too short!")
+            return redirect("/")
+        if len(content) > 1000:
+            flash("Max 1000 characters allowed")
+            return redirect("/")
+        execute_db("UPDATE posts SET content = ? WHERE id = ? AND user_id = ?",
+                (content, post_id, user_id))
+
+        post = query_db("SELECT users.username, posts.content, posts.time_posted FROM posts INNER JOIN users ON posts.user_id = users.id WHERE posts.id = ?", (post_id, ))[0]
+        
+        return render_template("partial/updated_post.html", post=post)
+
+@app.route("/posts/<post_id>/delete", methods=["DELETE"])
+@login_required
+def delete_post_route(post_id: int):
+    user_id = session.get("id")
+    execute_db("DELETE from posts where id = ? AND user_id = ?", (post_id, user_id))
+    return ""
+    
 
 
 if not os.path.exists(app.config["DATABASE_PATH"]):
